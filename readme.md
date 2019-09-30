@@ -2,7 +2,7 @@
 A repository by- [seemantaggarwal](https://github.com/seemantaggarwal) for beginners to create their first Pull Request.
 
 ## Steps to contribute.
-1. Register your GitHub ID on hackoberfest website. (https://hacktoberfest.digitalocean.com/start) 
+1. Register your GitHub ID on hackoberfest website. (https://hacktoberfest.digitalocean.com/start)
 
 2.Fork this repository.
 
