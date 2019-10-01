@@ -1,0 +1,40 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+template <typename sansi>
+class stacks
+{
+    vector<sansi>v;
+public:
+    void input(sansi d)
+    {
+        v.push_back(d);
+    }
+    bool empty(){
+       return v.size()==0;
+    }
+    void del()
+    {
+        if(!empty())
+        {
+            v.pop_back();
+        }
+    }
+    sansi top()
+    {
+        return v[v.size()-1];
+    }
+};
+int main()
+{
+   stacks<char> obj;
+   for(int i=65;i<=71;i++)
+   {
+       obj.input(i);
+   }
+   while(!obj.empty())
+   {
+       cout << obj.top() << "\n";
+       obj.del();
+   }
+}
