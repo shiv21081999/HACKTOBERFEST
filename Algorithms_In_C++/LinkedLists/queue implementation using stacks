@@ -1,0 +1,65 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+class Queue
+{
+private:
+    stack<int> s1,s2;
+public:
+    void push(int d)
+    {
+        s1.push(d);                                      ///PUSH FRIENDLY
+    }
+    int front()
+    {
+        while(!s1.empty())
+        {
+            int x=s1.top();
+            s2.push(x);
+            s1.pop();
+        }
+        int r=s2.top();
+        while(!s2.empty())
+        {
+            int x=s2.top();
+            s1.push(x);
+            s2.pop();
+        }
+        return r;
+
+    }
+    void pop()
+    {
+        while(!s1.empty())
+        {
+            int x=s1.top();
+            s2.push(x);
+            s1.pop();
+        }
+        s2.pop();
+        while(!s2.empty())
+        {
+            int x=s2.top();
+            s1.push(x);
+            s2.pop();
+        }
+    }
+    bool empty()
+    {
+        if (s1.empty()) return true;
+        else return false;
+    }
+    int size()
+    {
+        return s1.size();
+    }
+};
+int main()
+{   Queue q;
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    cout<<q.front()<<endl;
+    cout<<q.size()<<endl;
+    cout<<q.empty();
+}
