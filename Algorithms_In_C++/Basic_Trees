@@ -1,0 +1,229 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+using namespace std;
+class nodeofatree
+{
+public:
+	nodeofatree *right;
+	nodeofatree *left;
+	nodeofatree *next;
+	int data;
+	nodeofatree(int d)
+	{
+		data=d;
+		left=NULL;
+		right=NULL;
+		next=NULL;
+	}
+};
+void connectlevels(nodeofatree *root)
+{
+
+}
+nodeofatree *createTree()
+{
+	int x;
+	cin>>x;
+	if(x==-1)
+	{
+		return NULL;
+	}
+	nodeofatree *root= new nodeofatree(x);
+	cout<<"enter the left child of"<<x;
+	root->left=createTree();
+	cout<<"enter the right child of"<<x;
+	root->right=createTree();
+	return root;
+}
+void inorder(const nodeofatree *root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	inorder(root->left);
+	cout<<root->data<<endl;
+	inorder(root->right);
+}
+int height(const nodeofatree *root)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	int leftht= height(root->left);
+	int rightht=height(root->right);
+	return max(rightht, leftht) +1;
+}
+void levelprinting(nodeofatree *root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	nodeofatree *const marker = NULL;
+	queue<nodeofatree*> q;
+	q.push(root);
+	q.push(marker);
+	while(q.empty()== false)
+	{
+		nodeofatree *curr= q.front();
+		q.pop();
+		if(curr==marker)
+		{
+			cout<<"Current level is processed and next level is ended"<<endl;
+			if(q.empty()==false)
+			{
+				q.push(marker);
+			}
+			continue;
+		}
+		cout<<curr->data<<" ";
+		if(curr->left)
+		{
+			q.push(curr->left);
+		}
+		if(curr->right)
+		{
+			q.push(curr->right);
+		}
+		cout<<endl;
+	}
+}
+int countnodes(nodeofatree *root)
+{
+	int count=0;
+	if(root==NULL)
+	{
+		return count;
+	}
+	else
+	{
+		count = 1 + countnodes(root->left) + countnodes(root->right); 
+	}
+}
+void preorderprint(nodeofatree *root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	cout<<root->data<<endl;
+	preorderprint(root->left);
+	preorderprint(root->right);
+}
+void postorder(nodeofatree *root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	postorder(root->left);
+	postorder(root->right);
+	cout<<root->data<<endl;
+}
+int sumofnodes(nodeofatree *root)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	return root->data + sumofnodes(root->left) + sumofnodes(root->right);
+}
+int diameteroftree(nodeofatree *root)
+{
+	//left or right ki heights nikal lunga aur unko add krke 1 add krdunga ese me fir teeno m se max dedunga
+	if(root==NULL)
+	{
+		return 0;
+	}
+	int leftdi=diameteroftree(root->left);
+	int rightdi=diameteroftree(root->right);
+	int currdia= height(root->left) + height(root->right) +1;
+	return max( max(leftdi, rightdi) , currdia);
+}
+class  pair
+{
+public:
+	int diameter;
+	int height;
+	pair(int d, int h)
+	{
+		height=h;
+		diameter=d;
+	}
+};
+pair diameter(nodeofatree *root)
+{
+	if(root==NULL)
+	{
+		return pair(0,0);
+	}
+	pair lt= diameter(root->left);
+	pair rt= diameter(root->left);
+	int curr= max(lt.height, rt.height) +1;
+	int currdia= leftht + rightht + 1;
+	return pair(curr, currdia);
+}
+int diameter(nodeofatree *root, int &diametersofar)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	int lt= diameter(root->left, diametersofar);
+	int rt= diameter(root->right, diametersofar);
+	int curr= lt + rt + 1;
+	diametersofar = max(diametersofar, curr);
+	return max(lt, rt) + 1; 
+}
+bool isbinary(nodeofatree *root)
+{
+	//return true if binary else false
+	if(root==NULL)
+	{
+		return true;
+	}
+	if(root->data > root->left->data && root->data < root ->right->data)
+	{
+		return isbinary(root->left);
+	}
+	else
+	{
+		return false;
+	}
+}
+int main()
+{
+	nodeofatree *root= createTree();
+	inorder(root);
+	cout<<endl;
+	preorderprint(root);
+	cout<<endl;
+	postorder(root);
+	cout<<endl;
+	int sum=sumofnodes(root);
+	cout<<"the sum is"<<sum;
+	cout<<endl;
+	int ht=height(root);
+	cout<<"height is"<<ht;
+	levelprinting(root);
+	cout<<endl;
+	int nodesno;
+	nodesno=countnodes(root);
+	cout<<"no of nodes are"<<nodesno;
+	cout<<endl;
+	int diameter=diameteroftree(root);
+	cout<<"diameter is "<<diameter;
+	cout<<endl;
+	bool check = isbinary(root);
+	if(check)
+	{
+		cout<<"binary search tree";
+	}
+	else
+	{
+		cout<<"not a binary search tree";
+	}
+}
